@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OTP</title>
+	<!-- <meta http-equiv="refresh" content="30"/> -->
+	<link rel="icon" href="data:image/svg+xml;base64, PHN2ZyBpZD0iX3gzMV9feDJDXzUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTE4Ljc1IDI0aC0xMy41Yy0xLjI0IDAtMi4yNS0xLjAwOS0yLjI1LTIuMjV2LTEwLjVjMC0xLjI0MSAxLjAxLTIuMjUgMi4yNS0yLjI1aDEzLjVjMS4yNCAwIDIuMjUgMS4wMDkgMi4yNSAyLjI1djEwLjVjMCAxLjI0MS0xLjAxIDIuMjUtMi4yNSAyLjI1em0tMTMuNS0xMy41Yy0uNDEzIDAtLjc1LjMzNi0uNzUuNzV2MTAuNWMwIC40MTQuMzM3Ljc1Ljc1Ljc1aDEzLjVjLjQxMyAwIC43NS0uMzM2Ljc1LS43NXYtMTAuNWMwLS40MTQtLjMzNy0uNzUtLjc1LS43NXoiLz48cGF0aCBkPSJtMTcuMjUgMTAuNWMtLjQxNCAwLS43NS0uMzM2LS43NS0uNzV2LTMuNzVjMC0yLjQ4MS0yLjAxOS00LjUtNC41LTQuNXMtNC41IDIuMDE5LTQuNSA0LjV2My43NWMwIC40MTQtLjMzNi43NS0uNzUuNzVzLS43NS0uMzM2LS43NS0uNzV2LTMuNzVjMC0zLjMwOSAyLjY5MS02IDYtNnM2IDIuNjkxIDYgNnYzLjc1YzAgLjQxNC0uMzM2Ljc1LS43NS43NXoiLz48cGF0aCBkPSJtMTIgMTdjLTEuMTAzIDAtMi0uODk3LTItMnMuODk3LTIgMi0yIDIgLjg5NyAyIDItLjg5NyAyLTIgMnptMC0yLjVjLS4yNzUgMC0uNS4yMjQtLjUuNXMuMjI1LjUuNS41LjUtLjIyNC41LS41LS4yMjUtLjUtLjUtLjV6Ii8+PHBhdGggZD0ibTEyIDIwYy0uNDE0IDAtLjc1LS4zMzYtLjc1LS43NXYtMi43NWMwLS40MTQuMzM2LS43NS43NS0uNzVzLjc1LjMzNi43NS43NXYyLjc1YzAgLjQxNC0uMzM2Ljc1LS43NS43NXoiLz48L3N2Zz4=">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<style>
+		input {
+			margin: 2px;
+			text-align: center;
+			height: 40px;
+		}
+		button {
+			margin: 5px;
+			transition: background 0.8s;
+			border: 1px solid lightgray;
+			padding: 3px 20px;
+		}
+		button:active {
+			background-color: deepskyblue;
+			background-size: 100%;
+			transition: background 0s;
+		}
+		button:focus {
+			outline: none;
+		}
+		.pannel > button {
+			color: #999999;
+			font-size: 70%;
+		}
+		.pannel > button span {
+			display: block;
+			padding: 0;
+			margin: 0;
+			height: auto;
+			width: auto;
+		}
+		.pannel > button > span:last-child {
+			color: #333333;
+			font-size: 130%;
+		}
+		.company {
+			display: inline-block;
+			text-align: center;
+			font-size: 76%;
+			margin: 0 auto;
+			vertical-align: text-bottom;
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#e7e7e7));
+			box-shadow: 0px 2px 4px #aaa, inset 0px 2px 3px #fff;
+			border: 1px solid lightgray;
+		}
+	</style>
+</head>
+<body onload="focusPassphrase()">
+	<div class="container">
+		<div class="row text-center">
+			<div class="col-sm">
+				<h4>Multi-Factor-Authentication</h4>
+				<h5>(Two-Step-Verification)</h5>
+			</div>
+		</div>
+		<div class="row text-center">
+			<div class="col-sm">
+				<hr>
+				<div>Password</div>
+				<input type="password" id="passphrase" style="text-align: center;" title="yato" />
+				<hr>
+			</div>
+		</div>
+		<div class="row text-center">
+			<div class="col-sm">
+				<div><span id="epoch"></span>&nbsp;seconds remaining</div>
+				<progress id="progressbar" max="30"></progress>
+			</div>
+		</div>
+	 	<div class="row text-center my-4">
+			<div class="col-sm">
+				<div class="pannel">
+					<td><button id="amazon" onclick="copyToClipBoard(this.id)"><span>AMAZON</span><span>XXXXXX</span></button></td>
+					<td><button id="github" onclick="copyToClipBoard(this.id)"><span>GITHUB</span><span>XXXXXX</span></button></td>
+					<td><button id="google" onclick="copyToClipBoard(this.id)"><span>GOOGLE</span><span>XXXXXX</span></button></td>
+					<td><button id="hcl" onclick="copyToClipBoard(this.id)"><span>HCL</span><span>XXXXXX</span></button></td>
+					<td><button id="wu" onclick="copyToClipBoard(this.id)"><span>WU</span><span>XXXXXX</span></button></td>
+					<td><button id="godaddy" onclick="copyToClipBoard(this.id)"><span>GODADDY</span><span>XXXXXX</span></button></td>
+				</div>
+			</div>
+		</div>
+ 		<hr>
+	 	<div class="row text-center my-4">
+			<div class="col-sm">
+				<input type="text" id="e_msg_input" placeholder="secret" /><br>
+				<input type="text" id="e_secret" placeholder="password" /><br>
+				<input type="text" id="e_msg_output" placeholder="output" /><br>
+				<button onclick="encrypt()">encrypt</button>
+			</div>
+			<div class="col-sm">
+				<input type="text" id="d_msg_input" placeholder="secret" /><br>
+				<input type="text" id="d_secret" placeholder="password" /><br>
+				<input type="text" id="d_msg_output" placeholder="output" /><br>
+				<button onclick="decrypt()">decrypt</button>
+			</div>
+	  </div>
+	</div>
+
+	<script src="jsOTP.min.js"></script>
+	<script src="crypto-js.min.js"></script>
+
+	<script type="text/javascript">
+
+
+		// var hotp = new jsOTP.hotp();
+		// var hmacCode = hotp.getOtp(<your OTP key>, <counter>);
+		var totp = new jsOTP.totp();
+
+		// AES - same
+		// DES - working
+		// RC4
+		// RC4Drop
+		// Rabbit
+		// RabbitLegacy
+		// TripleDES -- same
+
+		const cipher = "AES"
+
+		function encrypt() {
+			let e_msg_input = document.querySelector("#e_msg_input");
+			let e_secret = document.querySelector("#e_secret");
+			let e_msg_output = document.querySelector("#e_msg_output");
+			try {
+				e_msg_output.value = CryptoJS[cipher].encrypt(e_msg_input.value, e_secret.value).toString();
+			} catch(e) {
+				e_msg_output.value = e;
+			}
+		}
+
+		function decrypt() {
+			let d_msg_input = document.querySelector("#d_msg_input");
+			let d_secret = document.querySelector("#d_secret");
+			let d_msg_output = document.querySelector("#d_msg_output");
+			try {
+				d_msg_output.value = CryptoJS[cipher].decrypt(d_msg_input.value, d_secret.value).toString(CryptoJS.enc.Utf8);
+			} catch(e) {
+				d_msg_output.value = e;
+			}
+		}
+
+		function processPassphrase() {
+			const otpsObj = {
+				amazon: "U2FsdGVkX198PGHwy5U98RsVTJNRZePB1bmuWleatZHxM3xdAiSkuNQ2N1R8KwNFB/25rYHNrd1vnd8ubZVTSIDcHo7ulBP0Vt+JhZfe6sU=",
+				github: "U2FsdGVkX1/YSlcGrWJyt3xEJTfuU3fdw8ep23yVFQlQ/7py5V5wCfteZBpLX1N5",
+				google: "U2FsdGVkX1+mysPRzHdzjoHW2tJAJSSgeFEWJrlh0Z1jkDoG5GM4jrFORPo6ud6vmWVaatm+VI+ZOfBr6BRXOA==",
+				hcl: "U2FsdGVkX1+hY+U2HdT+jgDezD9gYDYGy815VvjS08l2otcEEvqp8S7I5L7g0nAW",
+				wu: "U2FsdGVkX19qmB+neh7zGcmaVVnmv2kM8jWbUFrhZYSaeplil+xcle3aIcBJfFdX",
+				godaddy: "U2FsdGVkX1/WreQ7KF8vBDWMeCJnqZoeg1PtxIcn3V4JOmjKw4bEP4LHJyKhxsV1",
+			}
+			Object.keys(otpsObj).forEach( (key) => {
+				try {
+					let kkkey = String(otpsObj[key]);
+					let realSecret = CryptoJS[cipher].decrypt(kkkey, document.querySelector("#passphrase").value || "mock").toString(CryptoJS.enc.Utf8);
+					let paddedSecret = padMultipleOfEight(realSecret);
+					let otp = (paddedSecret)? totp.getOtp(paddedSecret) : "XXXXXX";
+					document.querySelector(`#${key} > span:last-child`).textContent = otp;
+				} catch(e) {
+					console.log(e);
+				}
+			});
+		}
+
+		function padMultipleOfEight(val) {
+			let remainder = val.length % 8;
+			if(remainder === 0) {
+				return val;
+			} else {
+				let totalLenth = val.length + (8 - remainder);
+				return val.padEnd(totalLenth, "A");
+			}
+		}
+
+		function copyToClipBoard(e) {
+			let otpValue = document.querySelector(`#${e} > span:last-child`).textContent;
+			navigator.clipboard.writeText(otpValue);
+		}
+
+		function focusPassphrase() {
+			document.querySelector("#passphrase").focus();
+		}
+
+		function epoch() {
+			setInterval(() => {
+				let time = (30 - Math.round(new Date() / 1000) % 30);
+				document.querySelector("#epoch").innerText = time;
+				document.querySelector("#progressbar").value = time;
+				processPassphrase();
+			}, 1000)
+		}
+
+		epoch();
+
+	</script>
+	
+</body>
+</html>
